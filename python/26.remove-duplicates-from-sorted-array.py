@@ -4,7 +4,7 @@ from utils import List
 
 
 class Solution:
-    def removeDuplicates2(self, nums: List[int]) -> int:
+    def removeDuplicates(self, nums: List[int]) -> int:
         if not len(nums):
             return 0
         cnt = 1
