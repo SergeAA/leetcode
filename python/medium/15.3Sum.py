@@ -12,20 +12,16 @@ class Solution:
                 continue
             l, r, sm = i + 1, ln - 1, 1
             while l < r:
-                if l > i + 1 and nums[l] == nums[l - 1]:
-                    l += 1
-                    continue
-                if r < ln - 1 and nums[r] == nums[r + 1]:
-                    r -= 1
-                    continue
                 sm = nums[i] + nums[l] + nums[r]
-                if sm == 0:
-                    res.append([nums[i], nums[l], nums[r]])
+                if sm > 0:
                     r -= 1
-                elif sm > 0:
-                    r -= 1
-                else:
+                elif sm < 0:
                     l += 1
+                else:
+                    res.append([nums[i], nums[l], nums[r]])
+                    l += 1
+                    while l < r and nums[l] == nums[l - 1]:
+                        l += 1
         return res
 
 
