@@ -10,8 +10,36 @@ from utils import (
 
 
 class Solution:
-    # @testtime(100000)
     def removeNthFromEnd(
+        self, head: Optional[ListNode], n: int
+    ) -> Optional[ListNode]:
+        # set fast and slow pointers
+        fast = head
+        slow = head
+
+        # fast moves n + 1 steps
+        while n > 0:
+            fast = fast.next
+            n -= 1
+
+        # if after moving forward n + 1 steps, fast reaches the None
+        # then the nth node is just the first node of head
+        if fast == None:
+            return head.next
+
+        # move slow and fast pointer at the same time until fast reaches the end
+        # then the node after the slow pointer is the one to be removed
+        while fast.next != None:
+            fast = fast.next
+            slow = slow.next
+
+        # connect the slow pointer and the node after the next node
+        nxt = slow.next
+        slow.next = nxt.next
+
+        return head
+
+    def removeNthFromEnd2(
         self, head: Optional[ListNode], n: int
     ) -> Optional[ListNode]:
         if not head:
