@@ -1,37 +1,30 @@
 from utils import testtime, List
 
+# // it is NOT MY solution //
 
 # @lc code=start
 
-# def generateParenthesis(self, n: int) -> List[str]:
-#     def gen(string = "", opens = 0, closes = 0):
-#         if closes > opens or opens > n:
-#             return []
-#         if len(string) == (2 * n):
-#             return [string]
-#         return gen(string + "(", opens + 1, closes) + gen(string + ")", opens, closes + 1)
 
-#     return gen()
 class Solution:
-    @testtime(10)
+    @testtime(10000)
     def generateParenthesis(self, n: int) -> List[str]:
-        def kret(n):
-            if not n:
-                return set()
-            if n == 1:
-                return {"()"}
-            if n == 2:
-                return {"(())", "()()"}
+        ht = {}
+        ht[1] = set()
+        ht[1].add("()")
 
-            res = set()
-            for i in range(1, n):
-                for t in kret(n - i):
-                    res.update({"()" * i + f"({t})", f"({t})" + "()" * i})
-            for t in kret(n - 1):
-                res.update({f"({t})"})
-            return res
+        for i in range(2, n + 1):
+            ht[i] = set()
 
-        return kret(n)
+            for n_minus_1_result in ht[i - 1]:
+                ht[i].add("(" + n_minus_1_result + ")")
+
+            for x_idx in range(1, i):
+                for x in ht[x_idx]:
+                    for y in ht[i - x_idx]:
+                        ht[i].add(x + y)
+                        ht[i].add(y + x)
+
+        return ht[n]
 
 
 # @lc code=end
@@ -44,9 +37,9 @@ def test(n, result):
     print(f"ER: {result}\nAR: {res}" if res != result else "Passed", "\n")
 
 
-# test(2, ["(())", "()()"])
+test(2, ["(())", "()()"])
 
-# test(3, ["((()))", "(()())", "(())()", "()(())", "()()()"])
+test(3, ["((()))", "(()())", "(())()", "()(())", "()()()"])
 test(
     4,
     [
@@ -66,4 +59,4 @@ test(
         "()()()()",
     ],
 )
-# test(1, ["()"])
+test(1, ["()"])
