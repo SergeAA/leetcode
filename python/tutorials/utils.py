@@ -2,7 +2,7 @@ from time import time
 from typing import Optional, List
 
 
-def test(er, func, *args, cnt=1000):
+def test(er, func, *args, cnt=10):
     c = time()
     for _ in range(cnt):
         ar = func(*args)
